@@ -1,0 +1,53 @@
+package threeToOne;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class ThreeFiles {
+
+	public static void main(String[] args) {
+		printInfo(
+				"Практика наше все. Я не верю, что можно стать программистом, не программируя.",
+				"first.txt");
+		printInfo(
+				"Слишком много есть людей, которые могут отвечать на вопросы по Java, но не умеют программировать.",
+				"second.txt");
+		printInfo(
+				"Поэтому основной целью обучения есть «наработка людьми практического опыта».",
+				"third.txt");
+
+		printInfo(readAndCopy("first.txt", "second.txt", "third.txt"),
+				"final.txt");
+
+	}
+
+	public static void printInfo(String a, String file) {
+		try (PrintWriter pw = new PrintWriter(file)) {
+			pw.print(a);
+		} catch (IOException ex) {
+			System.out.println("Error!");
+		}
+
+	}
+
+	public static String readAndCopy(String a, String b, String c) {
+		String str1 = "";
+		try (BufferedReader br = new BufferedReader(new FileReader(a));
+				BufferedReader br1 = new BufferedReader(new FileReader(b));
+				BufferedReader br2 = new BufferedReader(new FileReader(c))) {
+
+			do {
+				str1 = str1 + br.readLine() + "\n" + br1.readLine() + "\n"
+						+ br2.readLine();
+			} while ((br.readLine() != null) || (br1.readLine() != null)
+					|| (br2.readLine() != null));
+
+		} catch (IOException ex) {
+			System.out.println("Error while reading file!");
+		}
+		return str1;
+	}
+
+}
