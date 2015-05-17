@@ -5,4 +5,3 @@ creating a method that allows to write information to several files and method t
 For Java-beginners.
 This program create three .txt files, write information into them and implement copying data from three files to one newly created.
 
-Сharacter type flow.
