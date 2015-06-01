@@ -1,0 +1,151 @@
+package threeToOne;
+
+import java.io.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class ThreeFiles {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String[] text1 = readInfo();
+
+		System.out.println("Введите имя файла, типа *название.txt*");
+		String file1 = "";
+		try {
+			file1 = sc.nextLine();
+		} catch (InputMismatchException ex) {
+			System.out.println("File name 1 is wrong");
+		}
+		printInfo(text1, file1);
+
+		String[] text2 = readInfo();
+		System.out.println("Введите имя файла типа *название.txt*");
+		String file2 = "";
+		try {
+			file2 = sc.nextLine();
+		} catch (InputMismatchException ex) {
+			System.out.println("File name 2 is wrong");
+		}
+		printInfo(text2, file2);
+
+		String[] text3 = readInfo();
+		System.out.println("Введите имя файла типа *название.txt*");
+		String file3 = "";
+		try {
+			file3 = sc.nextLine();
+		} catch (InputMismatchException ex) {
+			System.out.println("File name 2 is wrong");
+		}
+		printInfo(text3, file3);
+
+		System.out
+				.println("Введите имя финального файла, куда записать информацию из трех предыдущих файлов");
+		String finalfile = "";
+		try {
+			finalfile = sc.nextLine();
+		} catch (InputMismatchException ex) {
+			System.out.println("File name 2 is wrong");
+		}
+
+		File finall = new File(finalfile);
+
+		if (!finall.exists()) {
+			try {
+				finall.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		readAndCopy(file1, file2, file3, finalfile);
+
+		sc.close();
+		System.out.println("Запись и копирование завершенно");
+
+	}
+
+	public static String[] readInfo() {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				System.in));
+		System.out
+				.println("Вводите текст, который нужно записать в файл. Для завершения введите q c новой строки.");
+
+		/** Reading all text from the keyboard **/
+
+		String[] text1 = new String[100];
+		try {
+			for (int i = 0; i < 100; i++) {
+				text1[i] = reader.readLine();
+				if ((text1[i].equalsIgnoreCase("q"))) {
+					break;
+				}
+			}
+		} catch (IOException e) {
+			System.out.println("Error IO");
+		}
+		return text1;
+	}
+
+	public static void printInfo(String[] a, String file) {
+		try (PrintWriter pw = new PrintWriter(file)) {
+			for (int i = 0; i < 100; i++) {
+				if (a[i].equalsIgnoreCase("q"))
+					break;
+				pw.println(a[i]);
+			}
+			pw.close();
+		} catch (IOException ex) {
+			System.out.println("Error!");
+		}
+
+	}
+
+	public static void readAndCopy(String a, String b, String c, String d) {
+
+		int i = 0;
+		try (FileInputStream fileIn1 = new FileInputStream(a);
+				FileInputStream fileIn2 = new FileInputStream(b);
+				FileInputStream fileIn3 = new FileInputStream(c);
+				FileOutputStream fileOut = new FileOutputStream(d);) {
+
+			do {
+
+				i = fileIn1.read();
+
+				if (i != -1) {
+
+					fileOut.write(i);
+
+				}
+			} while (i != -1);
+
+			do {
+
+				i = fileIn2.read();
+
+				if (i != -1) {
+
+					fileOut.write(i);
+
+				}
+			} while (i != -1);
+
+			do {
+
+				i = fileIn3.read();
+
+				if (i != -1) {
+
+					fileOut.write(i);
+
+				}
+			} while (i != -1);
+
+		} catch (IOException ex) {
+			System.out.println("file read error ");
+		}
+		
+	}
+
+}
